@@ -67,15 +67,20 @@ namespace AddressbookWebTests
         public void GroupCreationTest()
         {
             OpenHomePage();
+
             Login(new User("admin", "secret"));
+
             GoToGroupsPage();
 
             InitGroupCreation();
+
             ContactGroup group = new ContactGroup("Blue group");
             group.Header = "Blue header";
             group.Footer = "Blue footer";
+
             FillGroupForm(group);
             SubmitNewGroup();
+
             ReturnToGroups();
 
             Logout();
