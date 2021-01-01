@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AddressbookWebTests
 {
-    class ContactGroup
+    public class ContactGroup
     {
         //private string name;
         //private string header = "";

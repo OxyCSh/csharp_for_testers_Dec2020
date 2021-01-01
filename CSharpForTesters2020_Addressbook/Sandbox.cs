@@ -37,7 +37,7 @@ namespace AddressbookWebTests
         }
 
         [Test]
-        public void jQueryDatePickerTest()
+        public void JQueryDatePickerTest()
         {
             // working with jQuery date picker using jQuery API
             // http://barancev.github.io/how-to-set-datepicker-value/
@@ -55,19 +55,26 @@ namespace AddressbookWebTests
         }
 
 
-        // TO DO
+        // TO DO selecting from drop-downs
         [Test]
-        public void jQuerySelectTest()
+        public void JQuerySelectTest()
         {
             driver.Navigate().GoToUrl("https://select2.org/getting-started/basic-usage");
 
-            // switch to an iframe
-            //driver.SwitchTo().Frame(driver.FindElement(By.CssSelector("iframe.demo-frame")));
+            SelectFromDropDown(By.XPath("(//select)[1]"), "New Mexico"); // standard HTML select
+            SelectFromDropDown(By.XPath("(//select)[2]"), "Rhode Island"); // select2 - doesn't work
+            SelectFromDropDown(By.XPath("(//select)[3]"), "Nevada"); // select2 - doesn't work
+        }
 
-            // wait up to 30 seconds until the element is displayed
-            new WebDriverWait(driver, TimeSpan.FromSeconds(30)).Until<bool>(d => driver.FindElement(By.CssSelector("#datepicker")).Displayed);
+        private void SelectFromDropDown(By dropdownLocator, string selectOption)
+        {
+            // locate the drop down
+            var dropDown = driver.FindElement(dropdownLocator);
+            //create a select element object 
+            var selectElement = new SelectElement(dropDown);
 
-            (driver as IJavaScriptExecutor).ExecuteScript(String.Format("$('{0}').datepicker('setDate', '{1}')", "#datepicker", "02/20/2002"));
+            // select by text
+            selectElement.SelectByText(selectOption);
         }
     }
 }
