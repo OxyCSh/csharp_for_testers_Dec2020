@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace AddressbookWebTests
 {
-    public class Login
+    public class Login : HelperBase
     {
-        private IWebDriver driver;
-        public Login(IWebDriver driver)
+        public Login(ApplicationManager manager) : base(manager)
         {
-            this.driver = driver;
         }
 
         public void LoginUser(User user)
