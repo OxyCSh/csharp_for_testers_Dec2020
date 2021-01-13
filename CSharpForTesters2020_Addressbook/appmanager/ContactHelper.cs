@@ -14,6 +14,28 @@ namespace AddressbookWebTests
         {
         }
 
+        public ContactHelper ModifyContact(int ind, Contact contact)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactModification(ind);
+            FillContactForm(contact);
+            SubmitContactModification();
+            ReturnToHomePage();
+            return this;
+        }
+
+        public ContactHelper InitContactModification(int ind)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + ind + "]")).Click();
+            return this;
+        }
+
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
         public ContactHelper CreateContact(Contact contact)
         {
             InitContactCreation();
@@ -46,7 +68,8 @@ namespace AddressbookWebTests
             driver.FindElement(By.Name("byear")).Clear();
             driver.FindElement(By.Name("byear")).SendKeys(contact.YearOfBirth.ToString());
 
-            new SelectElement(driver.FindElement(By.Name("new_group"))).SelectByText(contact.ContactGroup);
+            if (contact.ContactGroup != null && contact.ContactGroup != "")
+                new SelectElement(driver.FindElement(By.Name("new_group"))).SelectByText(contact.ContactGroup);
 
             return this;
         }
@@ -60,6 +83,33 @@ namespace AddressbookWebTests
         public ContactHelper ReturnToHomePage()
         {
             driver.FindElement(By.LinkText("home page")).Click();
+            return this;
+        }
+
+        public ContactHelper RemoveContact(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContact(index);
+            ClickDeleteButton();
+            AcceptRemoval();
+            return this;
+        }
+
+        public ContactHelper AcceptRemoval()
+        {
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
+
+        public ContactHelper ClickDeleteButton()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact(int index)
+        {
+            driver.FindElement(By.XPath("(//input[@type='checkbox'])[" + index + "]")).Click();
             return this;
         }
     }

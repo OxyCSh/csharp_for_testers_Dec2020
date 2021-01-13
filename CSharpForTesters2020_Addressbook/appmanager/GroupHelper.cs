@@ -23,6 +23,29 @@ namespace AddressbookWebTests
             return this;
         }
 
+        public GroupHelper ModifyGroup(int index, ContactGroup group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(index);
+            InitGroupModification();
+            FillGroupForm(group);
+            SubmitGroupModification();
+            ReturnToGroups();
+            return this;
+        }
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
         public GroupHelper RemoveGroup(int index)
         {
             manager.Navigator.GoToGroupsPage();
