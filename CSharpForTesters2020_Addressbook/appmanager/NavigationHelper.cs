@@ -1,29 +1,32 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace AddressbookWebTests
 {
     public class Navigation : HelperBase
     {
-        private string baseURL;
+        private string baseURL = "http://localhost/addressbook/";
 
-        public Navigation(ApplicationManager manager, string baseURL) : base(manager)
+        public Navigation(ApplicationManager manager) : base(manager)
         {
-            this.baseURL = baseURL;
+            //this.baseURL = baseURL;
         }
 
         public void OpenHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL);
+            if (driver.Url != baseURL)
+                driver.Navigate().GoToUrl(baseURL);
         }
 
         public void GoToGroupsPage()
         {
-            driver.FindElement(By.LinkText("groups")).Click();
+            if (driver.Url == baseURL + "group.php"
+                    && IsElementPresent(By.Name("new"))
+                    && driver.FindElement(By.TagName("h1")).Text == "Groups")
+                return;
+
+            // added to avoid StaleElementReferenceException
+            WaitForElement(By.LinkText("groups"), 5).Click();
         }
     }
 }

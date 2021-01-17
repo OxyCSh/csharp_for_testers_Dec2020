@@ -8,12 +8,10 @@ namespace AddressbookWebTests
         protected ApplicationManager application;
 
         [SetUp]
-        public void SetupTest()
+        public void SetupApplicationManager()
         {
-            application = new ApplicationManager();
-
+            application = ApplicationManager.GetInstance();
             application.Navigator.OpenHomePage();
-            application.Login.LoginUser(new User("admin", "secret"));
 
             // option 1
             //driver = new ChromeDriver("C:\\SeleniumDrivers"); // a path to chromedriver as a parameter
@@ -35,12 +33,6 @@ namespace AddressbookWebTests
             // didn't work initially with the installed Chrome v87 because
             // it tried to use not compatible chromedriver v85 which it found in /bin/Debug
             //driver = new ChromeDriver();
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            application.StopDriver();
         }
     }
 }

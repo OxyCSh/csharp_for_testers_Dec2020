@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class ContactCreationTests : TestBase
+    public class ContactCreationTests : AuthenticationTestBase
     {
         [Test]
         public void ContactCreationTest()
@@ -15,11 +15,9 @@ namespace AddressbookWebTests
             contact.DayOfBirth = new Random().Next(1, 28);
             contact.MonthOfBirth = "November";
             contact.YearOfBirth = new Random().Next(1980, 2019);
-            contact.ContactGroup = "White group";
+            //contact.ContactGroup = "White group";
             
             application.ContactHelper.CreateContact(contact);
-
-            application.Login.Logout();
         }
     }
 }

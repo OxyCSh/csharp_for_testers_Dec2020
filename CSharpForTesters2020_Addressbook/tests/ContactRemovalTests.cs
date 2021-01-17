@@ -4,14 +4,22 @@
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class ContactRemovalTests : TestBase
+    public class ContactRemovalTests : AuthenticationTestBase
     {
         [Test]
         public void ContactRemovalTest()
         {
-            application.ContactHelper.RemoveContact(3);
+            // arrange
+            if (application.ContactHelper.NumberOfContacts() == 0)
+            {
+                Contact contact = new Contact("Tester");
+                application.ContactHelper.CreateContact(contact);
+            }
 
-            application.Login.Logout();
+            // act
+            application.ContactHelper.RemoveContact(0);
+
+            // assert
         }
     }
 }

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AddressbookWebTests
+﻿namespace AddressbookWebTests
 {
     public class Contact
     {
         public string FirstName { get; set; }
-        public string LastName { get; set; } = "";
-        public string Address { get; set; } = "";
+        public string LastName { get; set; } = null;
+        public string Address { get; set; } = null;
         public string Photo { get; set; } = "C:\\bunny.png";
         public int DayOfBirth { get; set; } = 1;
         public string MonthOfBirth { get; set; } = "January";

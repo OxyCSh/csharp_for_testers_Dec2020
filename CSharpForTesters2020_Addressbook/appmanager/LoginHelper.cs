@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AddressbookWebTests
 {
@@ -15,16 +10,36 @@ namespace AddressbookWebTests
 
         public void LoginUser(User user)
         {
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(user.Username);
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(user.Password);
-            driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+            if (!IsLoggedIn(user))
+            {
+                if (IsLoggedIn())
+                    Logout();
+
+                TypeIn(By.Name("user"), user.Username);
+                TypeIn(By.Name("pass"), user.Password);
+                driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+            }
         }
 
         public void Logout()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            if (IsLoggedIn())
+                driver.FindElement(By.LinkText("Logout")).Click();
+
+            // waiting for the Login page to ensure that logout completed
+            WaitForElement(By.Name("user"), 5);
+        }
+
+        public bool IsLoggedIn()
+        {
+            return IsElementPresent(By.Name("logout"));
+        }
+
+        public bool IsLoggedIn(User user)
+        {
+            return IsLoggedIn() &&
+                driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
+                    == "("+user.Username+")";
         }
     }
 }

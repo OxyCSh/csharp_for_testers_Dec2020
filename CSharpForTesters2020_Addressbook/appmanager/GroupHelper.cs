@@ -1,9 +1,5 @@
 ﻿using OpenQA.Selenium;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AddressbookWebTests
 {
@@ -34,18 +30,6 @@ namespace AddressbookWebTests
             return this;
         }
 
-        public GroupHelper InitGroupModification()
-        {
-            driver.FindElement(By.Name("edit")).Click();
-            return this;
-        }
-
-        public GroupHelper SubmitGroupModification()
-        {
-            driver.FindElement(By.Name("update")).Click();
-            return this;
-        }
-
         public GroupHelper RemoveGroup(int index)
         {
             manager.Navigator.GoToGroupsPage();
@@ -61,32 +45,42 @@ namespace AddressbookWebTests
             return this;
         }
 
-        public GroupHelper FillGroupForm(ContactGroup group)
-        {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
-            return this;
-        }
-
         public GroupHelper SubmitNewGroup()
         {
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
 
-        public GroupHelper PressRemoveButton()
+        public GroupHelper InitGroupModification()
         {
-            driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
             return this;
         }
 
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            IList<IWebElement> checkboxes = driver.FindElement(By.ClassName("group")).FindElements(By.TagName("input"));
+            checkboxes[index].Click();
+            return this;
+        }
+
+        public GroupHelper PressRemoveButton()
+        {
+            driver.FindElement(By.XPath("//input[@name='delete']")).Click();
+            return this;
+        }
+
+        public GroupHelper FillGroupForm(ContactGroup group)
+        {
+            TypeIn(By.Name("group_name"), group.Name);
+            TypeIn(By.Name("group_header"), group.Header);
+            TypeIn(By.Name("group_footer"), group.Footer);
             return this;
         }
 
@@ -94,6 +88,21 @@ namespace AddressbookWebTests
         {
             driver.FindElement(By.LinkText("group page")).Click();
             return this;
+        }
+
+        public int NumberOfGroups()
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            try
+            {
+                IList<IWebElement> groupEntries = driver.FindElements(By.ClassName("group"));
+                return groupEntries.Count;
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 }

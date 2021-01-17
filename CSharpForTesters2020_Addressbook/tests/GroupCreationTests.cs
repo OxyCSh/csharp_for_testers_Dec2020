@@ -4,7 +4,7 @@
 namespace AddressbookWebTests
 {
     [TestFixture] // attributes
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthenticationTestBase
     {
         [Test]
         public void GroupCreationTest()
@@ -14,8 +14,6 @@ namespace AddressbookWebTests
             group.Footer = "Green footer";
             
             application.GroupHelper.CreateGroup(group);
-
-            application.Login.Logout();
         }
 
         [Test]
@@ -26,8 +24,6 @@ namespace AddressbookWebTests
             group.Footer = "";
             
             application.GroupHelper.CreateGroup(group);
-
-            application.Login.Logout();
         }
     }
 }

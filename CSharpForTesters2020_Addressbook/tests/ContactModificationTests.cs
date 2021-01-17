@@ -4,16 +4,24 @@
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class ContactModificationTests : TestBase
+    public class ContactModificationTests : AuthenticationTestBase
     {
         [Test]
         public void ContactModificationTest()
         {
+            // arrange
+            if (application.ContactHelper.NumberOfContacts() == 0)
+            {
+                Contact contactForModification = new Contact("Tester");
+                application.ContactHelper.CreateContact(contactForModification);
+            }
+
             Contact contact = new Contact("Josef");
 
-            application.ContactHelper.ModifyContact(3, contact);
+            // act
+            application.ContactHelper.ModifyContact(0, contact);
 
-            application.Login.Logout();
+            // assert
         }
     }
 }
