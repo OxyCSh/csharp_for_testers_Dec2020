@@ -2,6 +2,8 @@
 
 namespace AddressbookWebTests
 {
+    /* all tests that need to be logged in inherit from this class (instead of TestBase)
+     those that don't - inherit directly from TestBase*/
     public class AuthenticationTestBase : TestBase
     {
         [SetUp]

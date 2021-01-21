@@ -12,12 +12,14 @@ namespace AddressbookWebTests
             //this.baseURL = baseURL;
         }
 
+        // to avoid unnecessary navigation, we check if we already on the right page
         public void OpenHomePage()
         {
             if (driver.Url != baseURL)
                 driver.Navigate().GoToUrl(baseURL);
         }
 
+        // to avoid unnecessary navigation, we check if we already on the right page
         public void GoToGroupsPage()
         {
             if (driver.Url == baseURL + "group.php"

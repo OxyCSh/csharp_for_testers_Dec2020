@@ -8,6 +8,8 @@ namespace AddressbookWebTests
         {
         }
 
+        // clever login method that only logs in if no user is logged in at all
+        // or if a wrong user is logged in, it logs it out and then logs in as the correct user
         public void LoginUser(User user)
         {
             if (!IsLoggedIn(user))
@@ -21,6 +23,7 @@ namespace AddressbookWebTests
             }
         }
 
+        // a clever method - first checks if any user is logged in before logging out
         public void Logout()
         {
             if (IsLoggedIn())
@@ -35,6 +38,7 @@ namespace AddressbookWebTests
             return IsElementPresent(By.Name("logout"));
         }
 
+        // checks if logged in as the User passed to the method
         public bool IsLoggedIn(User user)
         {
             return IsLoggedIn() &&
