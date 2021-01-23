@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 
 namespace AddressbookWebTests
@@ -65,7 +66,7 @@ namespace AddressbookWebTests
 
         public GroupHelper SelectGroup(int index)
         {
-            IList<IWebElement> checkboxes = driver.FindElement(By.ClassName("group")).FindElements(By.TagName("input"));
+            IList<IWebElement> checkboxes = driver.FindElements(By.XPath("//input[@type='checkbox']"));
             checkboxes[index].Click();
             return this;
         }
@@ -96,13 +97,32 @@ namespace AddressbookWebTests
 
             try
             {
-                IList<IWebElement> groupEntries = driver.FindElements(By.ClassName("group"));
-                return groupEntries.Count;
+                //IList<IWebElement> groupEntries = driver.FindElements(By.ClassName("group"));
+                //return groupEntries.Count;
+                return driver.FindElements(By.ClassName("group")).Count;
             }
             catch
             {
                 return 0;
             }
+        }
+
+        public List<ContactGroup> GetGroupList()
+        {
+            List<ContactGroup> groups = new List<ContactGroup>();
+
+            manager.Navigator.GoToGroupsPage();
+
+            ICollection<IWebElement> elements = driver.FindElements(By.ClassName("group")); //By.CssSelector("span.group")
+            // a Collection is generic collection, it's the base interface
+            // all other collections (like List) implement this interface
+
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new ContactGroup (element.Text));
+            }
+
+            return groups; // returns a list of objects of the group type
         }
     }
 }

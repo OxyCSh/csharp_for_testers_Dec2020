@@ -116,8 +116,9 @@ namespace AddressbookWebTests
 
             try
             {
-                IList<IWebElement> contactEntries = driver.FindElement(By.Id("maintable")).FindElements(By.Name("entry"));
-                return contactEntries.Count;
+                //IList<IWebElement> contactEntries = driver.FindElement(By.Id("maintable")).FindElements(By.Name("entry"));
+                //return contactEntries.Count;
+                return driver.FindElement(By.Id("maintable")).FindElements(By.Name("entry")).Count;
             }
             catch
             {

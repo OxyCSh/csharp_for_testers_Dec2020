@@ -7,13 +7,14 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace AddressbookWebTests
+namespace SandboxTests
 {
     [TestFixture]
     public class Sandbox
     {
         private IWebDriver driver;
         private StringBuilder verificationErrors;
+
 
         [SetUp]
         public void SetupTest()
@@ -75,6 +76,37 @@ namespace AddressbookWebTests
 
             // select by text
             selectElement.SelectByText(selectOption);
+        }
+
+        [Test]
+        public void Loops()
+        {
+            // an array
+            string[] s = new string[] { "test1", "test2", "test3" };
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                System.Console.Out.Write(s[i]);
+            }
+
+            foreach (string element in s)
+            {
+                System.Console.Out.Write(element);
+            }
+
+            int attempt = 0;
+
+            while (driver.FindElements(By.Id("test")).Count == 0 && attempt < 5)
+            {
+                System.Threading.Thread.Sleep(1000);
+                attempt++;
+            }
+
+            do
+            {
+                System.Threading.Thread.Sleep(1000);
+                attempt++;
+            } while (driver.FindElements(By.Id("test")).Count == 0 && attempt < 5);
         }
     }
 }
