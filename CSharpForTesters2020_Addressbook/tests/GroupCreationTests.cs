@@ -20,6 +20,11 @@ namespace AddressbookWebTests
             List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
 
             Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
@@ -36,10 +41,15 @@ namespace AddressbookWebTests
             List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
 
             Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
 
         [Test]
-        public void BadNameGroupCreationTest()
+        public void BadNameGroupCreationTest_FailExpected()
         {
             // a group with a ' won't be created and the test will fail
             ContactGroup group = new ContactGroup("aaa'bbb");
@@ -53,6 +63,11 @@ namespace AddressbookWebTests
             List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
 
             Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }

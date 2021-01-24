@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-
+using System.Collections.Generic;
 
 namespace AddressbookWebTests
 {
@@ -18,10 +18,20 @@ namespace AddressbookWebTests
 
             ContactGroup group = new ContactGroup("Brown group");
 
+            List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList();
+
             // act
             application.GroupHelper.ModifyGroup(0, group);
 
             // assert
+            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+
+            Assert.AreEqual(oldGroups.Count, newGroups.Count);
+
+            oldGroups[0].Name = group.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
