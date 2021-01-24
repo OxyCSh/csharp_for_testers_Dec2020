@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -107,6 +108,20 @@ namespace SandboxTests
                 System.Threading.Thread.Sleep(1000);
                 attempt++;
             } while (driver.FindElements(By.Id("test")).Count == 0 && attempt < 5);
+        }
+
+        [Test]
+        public void TestTest()
+        {
+            driver.Navigate().GoToUrl("http://localhost/addressbook/");
+            driver.FindElement(By.Name("user")).SendKeys("admin");
+            driver.FindElement(By.Name("pass")).SendKeys("secret");
+            driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+
+            System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).Text);
+            System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).FindElement(By.XPath(".//td[3]")).Text);
+            System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).FindElement(By.XPath(".//td[2]")).Text);
+
         }
     }
 }

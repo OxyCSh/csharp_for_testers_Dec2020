@@ -57,8 +57,8 @@ namespace AddressbookWebTests
         // in automated web testing implementing GetHashCode won't speed up the execution
         // because the browser speed and browser<->web server communication speed is slow anyway
 
-        // it's an overrride of a standard method
-        // so if a test fails we can see the group name in test output
+        // it's an overrride of a standard method - a string representative of the instance
+        // so if a test fails we can see the group name in test output or when debugging
         public override string ToString()
         {
             return "group name = " + Name; // returns the string representation of a Contact Group object

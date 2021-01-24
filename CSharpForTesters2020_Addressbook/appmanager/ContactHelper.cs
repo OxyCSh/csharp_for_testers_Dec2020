@@ -82,6 +82,8 @@ namespace AddressbookWebTests
         public ContactHelper AcceptRemoval()
         {
             driver.SwitchTo().Alert().Accept();
+            WaitForElement(By.ClassName("msgbox"), 5);
+            WaitForElement(By.Id("maintable"), 5);
             return this;
         }
 
@@ -124,6 +126,26 @@ namespace AddressbookWebTests
             {
                 return 0;
             }
+        }
+
+        public List<Contact> GetContactList()
+        {
+            List<Contact> contacts = new List<Contact>();
+
+            manager.Navigator.OpenHomePage();
+
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+
+            foreach (IWebElement element in elements)
+            {
+                string firstName = element.FindElement(By.XPath(".//td[3]")).Text; //find First Name
+                string lastName = element.FindElement(By.XPath(".//td[2]")).Text; //find Last Name
+                Contact contact = new Contact(firstName);
+                contact.LastName = lastName;
+                contacts.Add(contact);
+            }
+
+            return contacts;
         }
     }
 }
