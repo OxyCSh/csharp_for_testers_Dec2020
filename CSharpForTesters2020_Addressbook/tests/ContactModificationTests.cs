@@ -24,10 +24,10 @@ namespace AddressbookWebTests
             // act
             application.ContactHelper.ModifyContact(0, contact);
 
+            Assert.AreEqual(oldContacts.Count, application.ContactHelper.NumberOfContacts());
+
             // assert
             List<Contact> newContacts = application.ContactHelper.GetContactList();
-
-            Assert.AreEqual(oldContacts.Count, newContacts.Count);
 
             oldContacts[0].FirstName = contact.FirstName;
             oldContacts[0].LastName = contact.LastName;

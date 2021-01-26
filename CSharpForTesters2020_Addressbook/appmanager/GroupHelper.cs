@@ -49,6 +49,7 @@ namespace AddressbookWebTests
         public GroupHelper SubmitNewGroup()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -61,6 +62,7 @@ namespace AddressbookWebTests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -74,6 +76,7 @@ namespace AddressbookWebTests
         public GroupHelper PressRemoveButton()
         {
             driver.FindElement(By.XPath("//input[@name='delete']")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -107,22 +110,35 @@ namespace AddressbookWebTests
             }
         }
 
+        /* caching - to speed up execution of long, complex operations
+        or operations with a lot of data
+
+        one option would be to limit the test data in the SUT
+        another to implement caching
+        */
+        private List<ContactGroup> groupCache = null; // a list of objects of the group type
+
         public List<ContactGroup> GetGroupList()
         {
-            List<ContactGroup> groups = new List<ContactGroup>();
-
-            manager.Navigator.GoToGroupsPage();
-
-            ICollection<IWebElement> elements = driver.FindElements(By.ClassName("group")); //By.CssSelector("span.group")
-            // a Collection is generic collection, it's the base interface
-            // all other collections (like List) implement this interface
-
-            foreach (IWebElement element in elements)
+            if (groupCache == null)
             {
-                groups.Add(new ContactGroup (element.Text));
-            }
+                groupCache = new List<ContactGroup>();
 
-            return groups; // returns a list of objects of the group type
+                manager.Navigator.GoToGroupsPage();
+
+                ICollection<IWebElement> elements = driver.FindElements(By.ClassName("group"));
+                //By.CssSelector("span.group")
+                // a Collection is generic collection, it's the base interface
+                // all other collections (like List) implement this interface
+
+                foreach (IWebElement element in elements)
+                {
+                    groupCache.Add(new ContactGroup(element.Text));
+                }
+            }
+            return new List<ContactGroup>(groupCache);
+            // return not the cache but a copy to keep the cache private
+            // so it's not corrupted/modified during execution by another method
         }
     }
 }

@@ -17,9 +17,15 @@ namespace AddressbookWebTests
 
             application.GroupHelper.CreateGroup(group);
 
-            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+            /* use this only if this test often fails
+            in this case it's quicker to compare the number of items and fail
+            without spending time comparing the items in the lists;
+            if the test is stable comparing count can be skipped
+            as it's an unnecessary step that takes time
+            */
+            Assert.AreEqual(oldGroups.Count + 1, application.GroupHelper.NumberOfGroups());
 
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
 
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -38,9 +44,9 @@ namespace AddressbookWebTests
 
             application.GroupHelper.CreateGroup(group);
 
-            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+            Assert.AreEqual(oldGroups.Count + 1, application.GroupHelper.NumberOfGroups());
 
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
 
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -60,9 +66,9 @@ namespace AddressbookWebTests
 
             application.GroupHelper.CreateGroup(group);
 
-            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+            Assert.AreEqual(oldGroups.Count + 1, application.GroupHelper.NumberOfGroups());
 
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
 
             oldGroups.Add(group);
             oldGroups.Sort();

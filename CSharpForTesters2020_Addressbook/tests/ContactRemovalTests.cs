@@ -21,10 +21,10 @@ namespace AddressbookWebTests
             // act
             application.ContactHelper.RemoveContact(0);
 
+            Assert.AreEqual(oldContacts.Count - 1, application.ContactHelper.NumberOfContacts());
+
             // assert
             List<Contact> newContacts = application.ContactHelper.GetContactList();
-
-            Assert.AreEqual(oldContacts.Count - 1, newContacts.Count);
 
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);

@@ -21,10 +21,10 @@ namespace AddressbookWebTests
             // act
             application.GroupHelper.RemoveGroup(0);
 
+            Assert.AreEqual(oldGroups.Count - 1, application.GroupHelper.NumberOfGroups());
+
             // assert
             List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
-
-            Assert.AreEqual(oldGroups.Count - 1, newGroups.Count);
 
             // remove deleted group from the list and compare the lists of groups
             oldGroups.RemoveAt(0);

@@ -50,6 +50,7 @@ namespace AddressbookWebTests
         public ContactHelper SubmitNewContact()
         {
             driver.FindElement(By.XPath("//input[@name='submit']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -70,6 +71,7 @@ namespace AddressbookWebTests
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -82,6 +84,7 @@ namespace AddressbookWebTests
         public ContactHelper AcceptRemoval()
         {
             driver.SwitchTo().Alert().Accept();
+            contactCache = null;
             WaitForElement(By.ClassName("msgbox"), 5);
             WaitForElement(By.Id("maintable"), 5);
             return this;
@@ -128,24 +131,29 @@ namespace AddressbookWebTests
             }
         }
 
+        // caching
+        private List<Contact> contactCache = null;
+
         public List<Contact> GetContactList()
         {
-            List<Contact> contacts = new List<Contact>();
-
-            manager.Navigator.OpenHomePage();
-
-            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
-
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                string firstName = element.FindElement(By.XPath(".//td[3]")).Text; //find First Name
-                string lastName = element.FindElement(By.XPath(".//td[2]")).Text; //find Last Name
-                Contact contact = new Contact(firstName);
-                contact.LastName = lastName;
-                contacts.Add(contact);
-            }
+                contactCache  = new List<Contact>();
 
-            return contacts;
+                manager.Navigator.OpenHomePage();
+
+                ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+
+                foreach (IWebElement element in elements)
+                {
+                    string firstName = element.FindElement(By.XPath(".//td[3]")).Text; //find First Name
+                    string lastName = element.FindElement(By.XPath(".//td[2]")).Text; //find Last Name
+                    Contact contact = new Contact(firstName);
+                    contact.LastName = lastName;
+                    contactCache.Add(contact);
+                }
+            }
+            return new List<Contact>(contactCache);
         }
     }
 }

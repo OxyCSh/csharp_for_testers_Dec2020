@@ -42,7 +42,7 @@ namespace AddressbookWebTests
         }
 
         /* the first step in the comparison is to compare hash codes
-         if they are different, then the objects are not equal and the Equals method is skipped
+        if they are different, then the objects are not equal and the slow Equals method is skipped
         if the same, then objects are compared by the Equals method*/
         // an override of a standard method
         public override int GetHashCode() // override means the method overrrides the standard method

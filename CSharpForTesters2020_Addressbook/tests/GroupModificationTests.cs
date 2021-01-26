@@ -23,10 +23,10 @@ namespace AddressbookWebTests
             // act
             application.GroupHelper.ModifyGroup(0, group);
 
+            Assert.AreEqual(oldGroups.Count, application.GroupHelper.NumberOfGroups());
+
             // assert
             List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
-
-            Assert.AreEqual(oldGroups.Count, newGroups.Count);
 
             oldGroups[0].Name = group.Name;
             oldGroups.Sort();

@@ -23,9 +23,9 @@ namespace AddressbookWebTests
 
             application.ContactHelper.CreateContact(contact);
 
-            List<Contact> newContacts = application.ContactHelper.GetContactList();
+            Assert.AreEqual(oldContacts.Count + 1, application.ContactHelper.NumberOfContacts());
 
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            List<Contact> newContacts = application.ContactHelper.GetContactList();
 
             oldContacts.Add(contact);
             oldContacts.Sort();
