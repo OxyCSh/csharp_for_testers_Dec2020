@@ -46,11 +46,12 @@ namespace AddressbookWebTests
         public int CompareTo(Contact other)
         {
             if (Object.ReferenceEquals(other, null))
-            {
                 return 1;
-            }
 
-            return (FirstName + LastName).CompareTo(other.FirstName + other.LastName);
+            if (LastName.CompareTo(other.LastName) == 0)
+                return FirstName.CompareTo(other.FirstName);
+            else
+                return LastName.CompareTo(other.LastName);
         }
     }
 }
