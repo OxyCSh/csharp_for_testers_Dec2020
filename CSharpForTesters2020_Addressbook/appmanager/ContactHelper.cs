@@ -146,10 +146,9 @@ namespace AddressbookWebTests
 
                 foreach (IWebElement element in elements)
                 {
-                    string firstName = element.FindElement(By.XPath(".//td[3]")).Text; //find First Name
-                    string lastName = element.FindElement(By.XPath(".//td[2]")).Text; //find Last Name
-                    Contact contact = new Contact(firstName);
-                    contact.LastName = lastName;
+                    Contact contact = new Contact(element.FindElement(By.XPath(".//td[3]")).Text); // First Name
+                    contact.LastName = element.FindElement(By.XPath(".//td[2]")).Text; // Last Name
+                    contact.Id = element.FindElement(By.XPath(".//td[1]/input")).GetAttribute("id"); //ID
                     contactCache.Add(contact);
                 }
             }

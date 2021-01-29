@@ -4,6 +4,7 @@ namespace AddressbookWebTests
 {
     public class Contact : IEquatable<Contact>, IComparable<Contact>
     {
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; } = null;
         public string Address { get; set; } = null;

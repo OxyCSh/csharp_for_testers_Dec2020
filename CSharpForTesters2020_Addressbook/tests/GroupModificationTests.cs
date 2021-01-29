@@ -20,18 +20,30 @@ namespace AddressbookWebTests
 
             List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList();
 
-            // act
-            application.GroupHelper.ModifyGroup(0, group);
+            int groupToModifyId = 0;
 
-            Assert.AreEqual(oldGroups.Count, application.GroupHelper.NumberOfGroups());
+            ContactGroup modifiedGroup = oldGroups[groupToModifyId];
+
+            // act
+            application.GroupHelper.ModifyGroup(groupToModifyId, group);
 
             // assert
+            Assert.AreEqual(oldGroups.Count, application.GroupHelper.NumberOfGroups());
+
             List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
 
-            oldGroups[0].Name = group.Name;
+            oldGroups[groupToModifyId].Name = group.Name;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (ContactGroup thisGroup in newGroups)
+            {
+                if (thisGroup.Id == modifiedGroup.Id)
+                {
+                    Assert.AreEqual(group.Name, thisGroup.Name);
+                }
+            }
         }
     }
 }

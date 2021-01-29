@@ -19,6 +19,7 @@ namespace AddressbookWebTests
         public string Name { get; set; }
         public string Header { get; set; } = null;
         public string Footer { get; set; } = null;
+        public string Id { get; set; }
 
 
         // an override of a standard method

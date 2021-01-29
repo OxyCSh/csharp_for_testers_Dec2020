@@ -18,16 +18,26 @@ namespace AddressbookWebTests
 
             List<Contact> oldContacts = application.ContactHelper.GetContactList();
 
-            // act
-            application.ContactHelper.RemoveContact(0);
+            int contactToBeRemovedId = 0;
 
-            Assert.AreEqual(oldContacts.Count - 1, application.ContactHelper.NumberOfContacts());
+            Contact toBeRemoved = oldContacts[contactToBeRemovedId];
+
+            // act
+            application.ContactHelper.RemoveContact(contactToBeRemovedId);
 
             // assert
+            Assert.AreEqual(oldContacts.Count - 1, application.ContactHelper.NumberOfContacts());
+
             List<Contact> newContacts = application.ContactHelper.GetContactList();
 
-            oldContacts.RemoveAt(0);
+            oldContacts.RemoveAt(contactToBeRemovedId);
+
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (Contact contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
     }
 }

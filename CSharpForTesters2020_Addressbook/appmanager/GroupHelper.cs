@@ -133,7 +133,21 @@ namespace AddressbookWebTests
 
                 foreach (IWebElement element in elements)
                 {
-                    groupCache.Add(new ContactGroup(element.Text));
+                    //option 1
+                    //ContactGroup group = new ContactGroup(element.Text);
+                    //group.Id = element.FindElement(By.TagName("input")).GetAttribute("value");
+                    //groupCache.Add(group);
+
+                    // option 2 - assign values to properties right after a new object is constructed
+                    //ContactGroup group = new ContactGroup(element.Text) {
+                    //    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    //};
+                    //groupCache.Add(group);
+
+                    // shorter version of option 2
+                    groupCache.Add(new ContactGroup(element.Text) {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
                 }
             }
             return new List<ContactGroup>(groupCache);

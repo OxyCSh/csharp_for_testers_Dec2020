@@ -21,19 +21,32 @@ namespace AddressbookWebTests
 
             List<Contact> oldContacts = application.ContactHelper.GetContactList();
 
-            // act
-            application.ContactHelper.ModifyContact(0, contact);
+            int contactToModifyId = 0;
 
-            Assert.AreEqual(oldContacts.Count, application.ContactHelper.NumberOfContacts());
+            Contact modifiedContact = oldContacts[contactToModifyId];
+
+            // act
+            application.ContactHelper.ModifyContact(contactToModifyId, contact);
 
             // assert
+            Assert.AreEqual(oldContacts.Count, application.ContactHelper.NumberOfContacts());
+
             List<Contact> newContacts = application.ContactHelper.GetContactList();
 
-            oldContacts[0].FirstName = contact.FirstName;
-            oldContacts[0].LastName = contact.LastName;
+            oldContacts[contactToModifyId].FirstName = contact.FirstName;
+            oldContacts[contactToModifyId].LastName = contact.LastName;
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (Contact thisContact in newContacts)
+            {
+                if (thisContact.Id == modifiedContact.Id)
+                {
+                    Assert.AreEqual(contact.FirstName, thisContact.FirstName);
+                    Assert.AreEqual(contact.LastName, thisContact.LastName);
+                }
+            }
         }
     }
 }
