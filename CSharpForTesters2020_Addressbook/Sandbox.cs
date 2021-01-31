@@ -121,7 +121,29 @@ namespace SandboxTests
             System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).Text);
             System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).FindElement(By.XPath(".//td[3]")).Text);
             System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).FindElement(By.XPath(".//td[2]")).Text);
+        }
 
+        [Test]
+        public bool Strings()
+        {
+            string s1 = "test";
+
+            // use @ to add verbatim strings where no need to use \ to escape
+            string s2 = @" t\e""
+                        s
+                        t ";
+            s2.Trim(); // to remove spaces at the beginning and end
+
+            string[] parts = s2.Split('\n');
+
+            string s3 = System.String.Format("({0})", s1);
+
+            // special characters
+            // \ a back slash to screen (escape) characters: \\, \", \t tab, \n new line
+
+            // ways to compare strings
+            //return s1 == s2;
+            return s1.Equals(s2, StringComparison.OrdinalIgnoreCase); // can use options, e g ignoring the case
         }
     }
 }
