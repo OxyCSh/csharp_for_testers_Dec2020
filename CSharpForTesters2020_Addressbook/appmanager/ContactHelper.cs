@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
-
+using System.Text.RegularExpressions;
 
 namespace AddressbookWebTests
 {
@@ -203,6 +203,15 @@ namespace AddressbookWebTests
                 }
             }
             return new List<Contact>(contactCache);
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.OpenHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text); // a reg expression is applied to text
+            // m is a part of text that matches the reg expression
+            return Int32.Parse(m.Value);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace AddressbookWebTests
 {
@@ -54,7 +55,12 @@ namespace AddressbookWebTests
         {
             if (phone == null || phone == "")
                 return "";
-            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+
+            // before using a regular expression
+            // return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+
+            // parameters - string, reg expression in square brackets, replace with what
+            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
         }
 
         public bool Equals(Contact other)
