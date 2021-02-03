@@ -46,6 +46,31 @@ namespace AddressbookWebTests
         public int YearOfBirth { get; set; } = 2000;
         public string ContactGroup { get; set; } = null;
 
+        public string detailsView;
+        public string DetailsView
+        {
+            get
+            {
+                if (detailsView != null)
+                    return detailsView;
+                else
+                {
+                    if (FirstName != null && FirstName!= "") detailsView = detailsView + FirstName;
+                    if (LastName != null && LastName != "") detailsView = detailsView + " " + LastName;
+                    if (Address != null && Address != "") detailsView = detailsView + Address;
+
+                    if (HomePhone != null && HomePhone != "") detailsView = detailsView + "H: " + HomePhone;
+                    if (MobilePhone != null && MobilePhone != "") detailsView = detailsView + "M: " + MobilePhone;
+                    if (WorkPhone != null && WorkPhone != "") detailsView = detailsView + "W: " + WorkPhone;
+
+                    if (AllEmails != null && AllEmails != "") detailsView = detailsView + AllEmails;
+
+                    return Regex.Replace(detailsView, @"[\r\n]", "").Trim();
+                }
+            }
+            set { detailsView = value; }
+        }
+
         public Contact(string firstName)
         {
             FirstName = firstName;

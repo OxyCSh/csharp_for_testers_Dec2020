@@ -118,9 +118,11 @@ namespace SandboxTests
             driver.FindElement(By.Name("pass")).SendKeys("secret");
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
 
-            System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).Text);
-            System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).FindElement(By.XPath(".//td[3]")).Text);
-            System.Console.Out.Write(driver.FindElement(By.XPath("(//tr[@name='entry'])[3]")).FindElement(By.XPath(".//td[2]")).Text);
+            IList<IWebElement> editIcons = driver.FindElement(By.Id("maintable")).FindElements(By.XPath("//img[@alt='Details']"));
+            editIcons[3].Click();
+
+            System.Console.Out.Write(driver.FindElement(By.Id("content")).Text);
+
         }
 
         [Test]

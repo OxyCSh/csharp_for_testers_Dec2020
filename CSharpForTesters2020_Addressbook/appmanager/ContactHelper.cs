@@ -50,6 +50,26 @@ namespace AddressbookWebTests
             };
         }
 
+        internal Contact GetContactInfoFromView(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            OpenContactDetails(index);
+
+            string detailsView = Regex.Replace(driver.FindElement(By.Id("content")).Text, @"[\r\n]", "").Trim();
+
+            return new Contact(null)
+            {
+                DetailsView = detailsView
+            };
+        }
+
+        private ContactHelper OpenContactDetails(int index)
+        {
+            IList<IWebElement> editIcons = driver.FindElement(By.Id("maintable")).FindElements(By.XPath("//img[@alt='Details']"));
+            editIcons[index].Click();
+            return this;
+        }
+
         internal Contact GetContactInfoFromTable(int index)
         {
             manager.Navigator.OpenHomePage();
