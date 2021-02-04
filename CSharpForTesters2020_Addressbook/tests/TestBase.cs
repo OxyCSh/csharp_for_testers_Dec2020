@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
-
+using System;
+using System.Text;
 
 namespace AddressbookWebTests
 {
@@ -33,6 +34,27 @@ namespace AddressbookWebTests
             // didn't work initially with the installed Chrome v87 because
             // it tried to use not compatible chromedriver v85 which it found in /bin/Debug
             //driver = new ChromeDriver();
+        }
+
+        // moved outside the method so the same generator is used instead of initializing one each time
+        public static Random rnd = new Random();
+
+        
+        public static string GenerateRandomString(int max) // max number of characters
+        {
+            // Random rnd = new Random();
+            /* initializes using the current time in miliseconds,
+             * if the method is run several times during the same milisecond,
+            the generator is initialized several times in the same milisecond
+            and the same numbers/string are generated*/
+
+            int l = Convert.ToInt32(rnd.NextDouble() * max); // random number of characters up to max
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < l; i++)
+            {
+               builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223))); // random codes from ASCII
+            }
+            return builder.ToString();
         }
     }
 }

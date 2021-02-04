@@ -62,7 +62,7 @@ namespace AddressbookWebTests
         // so if a test fails we can see the group name in test output or when debugging
         public override string ToString()
         {
-            return "group name = " + Name; // returns the string representation of a Contact Group object
+            return "name = " + Name + "\nheader = " + Header + "\nfooter = " + Footer; // returns the string representation of a Contact Group object
         }
 
         /* by default the standard Sort method uses the default comparer
