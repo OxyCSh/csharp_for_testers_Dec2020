@@ -33,7 +33,7 @@ namespace AddressbookWebTests
                 if (allEmails != null)
                     return allEmails;
                 else
-                    return allEmails = (Email + "\r\n" + Email2 + "\r\n" + Email3).Trim();
+                    return allEmails = (AddEmailIfExists(Email) + AddEmailIfExists(Email2) + AddEmailIfExists(Email3)).Trim();
             }
             set
             { allEmails = value; }
@@ -57,15 +57,18 @@ namespace AddressbookWebTests
                 {
                     if (FirstName != null && FirstName!= "") detailsView = detailsView + FirstName;
                     if (LastName != null && LastName != "") detailsView = detailsView + " " + LastName;
-                    if (Address != null && Address != "") detailsView = detailsView + Address;
+                    if (Address != null && Address != "") detailsView = detailsView + "\r\n" + Address;
 
-                    if (HomePhone != null && HomePhone != "") detailsView = detailsView + "H: " + HomePhone;
-                    if (MobilePhone != null && MobilePhone != "") detailsView = detailsView + "M: " + MobilePhone;
-                    if (WorkPhone != null && WorkPhone != "") detailsView = detailsView + "W: " + WorkPhone;
+                    if (PhoneExists(HomePhone) || PhoneExists(MobilePhone) || PhoneExists(WorkPhone))
+                    {
+                        detailsView = detailsView + "\r\n";
+                        if (PhoneExists(HomePhone)) detailsView = detailsView + "\r\n" + "H: " + HomePhone;
+                        if (PhoneExists(MobilePhone)) detailsView = detailsView + "\r\n" + "M: " + MobilePhone;
+                        if (PhoneExists(WorkPhone)) detailsView = detailsView + "\r\n" + "W: " + WorkPhone;
+                    }
+                    if (AllEmails != null && AllEmails != "") detailsView = detailsView + "\r\n\r\n" + AllEmails;
 
-                    if (AllEmails != null && AllEmails != "") detailsView = detailsView + AllEmails;
-
-                    return Regex.Replace(detailsView, @"[\r\n]", "").Trim();
+                    return detailsView.Trim();
                 }
             }
             set { detailsView = value; }
@@ -82,10 +85,22 @@ namespace AddressbookWebTests
                 return "";
 
             // before using a regular expression
-            // return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            //return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
 
             // parameters - string, reg expression in square brackets, replace with what
-            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+            return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
+        }
+
+        private string AddEmailIfExists(string email)
+        {
+            if (email == null || email == "")
+                return "";
+            return email + "\r\n";
+        }
+
+        private bool PhoneExists(string phone)
+        {
+            return phone != null && phone != "";
         }
 
         public bool Equals(Contact other)

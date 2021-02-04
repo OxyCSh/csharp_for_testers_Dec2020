@@ -55,7 +55,7 @@ namespace AddressbookWebTests
             manager.Navigator.OpenHomePage();
             OpenContactDetails(index);
 
-            string detailsView = Regex.Replace(driver.FindElement(By.Id("content")).Text, @"[\r\n]", "").Trim();
+            string detailsView = driver.FindElement(By.Id("content")).Text;
 
             return new Contact(null)
             {

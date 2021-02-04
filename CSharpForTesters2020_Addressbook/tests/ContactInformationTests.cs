@@ -10,8 +10,8 @@ namespace AddressbookWebTests
         [Test]
         public void ContactInformationTest()
         {
-            Contact contactInfoFromTable = application.ContactHelper.GetContactInfoFromTable(0);
-            Contact contactInfoFromEditForm = application.ContactHelper.GetContactInfoFromEditForm(0);
+            Contact contactInfoFromTable = application.ContactHelper.GetContactInfoFromTable(7);
+            Contact contactInfoFromEditForm = application.ContactHelper.GetContactInfoFromEditForm(7);
 
             Assert.AreEqual(contactInfoFromTable, contactInfoFromEditForm);
             Assert.AreEqual(contactInfoFromTable.Address, contactInfoFromEditForm.Address);
@@ -20,10 +20,10 @@ namespace AddressbookWebTests
         }
 
         [Test]
-        public void ContactInformationViewAndEditTest()
+        public void ContactInformationViewAndEditTest([Range(0, 9)] int x)
         {
-            Contact contactInfoFromView = application.ContactHelper.GetContactInfoFromView(0);
-            Contact contactInfoFromEditForm = application.ContactHelper.GetContactInfoFromEditForm(0);
+            Contact contactInfoFromView = application.ContactHelper.GetContactInfoFromView(x);
+            Contact contactInfoFromEditForm = application.ContactHelper.GetContactInfoFromEditForm(x);
 
             Assert.AreEqual(contactInfoFromView.DetailsView, contactInfoFromEditForm.DetailsView);
         }
