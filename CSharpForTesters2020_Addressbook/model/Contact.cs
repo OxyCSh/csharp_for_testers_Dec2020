@@ -42,7 +42,7 @@ namespace AddressbookWebTests
         public string Email2 { get; set; } = null;
         public string Email3 { get; set; } = null;
         public int DayOfBirth { get; set; } = 1;
-        public string MonthOfBirth { get; set; } = "January";
+        public int MonthOfBirth { get; set; } = 1;
         public int YearOfBirth { get; set; } = 2000;
         public string ContactGroup { get; set; } = null;
 

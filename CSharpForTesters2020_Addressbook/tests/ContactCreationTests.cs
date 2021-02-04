@@ -8,15 +8,38 @@ namespace AddressbookWebTests
     [TestFixture]
     public class ContactCreationTests : AuthenticationTestBase
     {
-        [Test]
-        public void ContactCreationTest()
+        public static IEnumerable<Contact> RandomContactDataProvider()
         {
+            List<Contact> contacts = new List<Contact>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                DateTime date = GenerateRandomDate(1980, 2019);
+
+                contacts.Add(new Contact(GenerateRandomString(30))
+                {
+                    LastName = GenerateRandomString(50),
+                    Address = GenerateRandomString(100),
+                    DayOfBirth = date.Day,
+                    MonthOfBirth = date.Month,
+                    YearOfBirth = date.Year
+                });
+            }
+
+            return contacts;
+        }
+
+        [Test, TestCaseSource("RandomContactDataProvider")]
+        public void ContactCreationTest(Contact contact)
+        {
+            /*
             Contact contact = new Contact("John");
             contact.LastName = "Long";
             contact.Address = "Line 1\nLine 2";
             contact.DayOfBirth = new Random().Next(1, 28);
             contact.MonthOfBirth = "November";
             contact.YearOfBirth = new Random().Next(1980, 2019);
+            */
             //contact.ContactGroup = "White group";
 
             List<Contact> oldContacts = application.ContactHelper.GetContactList();

@@ -56,5 +56,16 @@ namespace AddressbookWebTests
             }
             return builder.ToString();
         }
+
+        public static DateTime GenerateRandomDate(int yearMin, int yearMax)
+        {
+
+            int year = rnd.Next(yearMin, yearMax);
+            int month = rnd.Next(1, 12);
+            int day = DateTime.DaysInMonth(year, month);
+            int Day = rnd.Next(1, day);
+
+            return new DateTime(year, month, Day);
+        }
     }
 }

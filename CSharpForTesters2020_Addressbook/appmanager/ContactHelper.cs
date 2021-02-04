@@ -170,7 +170,7 @@ namespace AddressbookWebTests
             driver.FindElement(By.Name("photo")).SendKeys(contact.Photo); // file selector
 
             new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText(contact.DayOfBirth.ToString()); // drop-down
-            new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByText(contact.MonthOfBirth);
+            new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByIndex(contact.MonthOfBirth+1);
             TypeIn(By.Name("byear"), contact.YearOfBirth.ToString());
 
             if (contact.ContactGroup != null && contact.ContactGroup != "")
