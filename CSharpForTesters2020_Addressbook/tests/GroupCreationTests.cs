@@ -1,13 +1,15 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AddressbookWebTests
 {
     [TestFixture] // attributes
     public class GroupCreationTests : AuthenticationTestBase
     {
-        // it needs to be static as NUnit generates data at compile time
+        // random data provider
+        // it needs to be static as NUnit generates data at test compile time
         public static IEnumerable<ContactGroup> RandomGroupDataProvider()
         {
             List<ContactGroup> groups = new List<ContactGroup>();
@@ -24,8 +26,31 @@ namespace AddressbookWebTests
             return groups;
         }
 
+        // data provider
+        public static IEnumerable<ContactGroup> GroupDataFromFile()
+        {
+            List<ContactGroup> groups = new List<ContactGroup>();
 
-        [Test, TestCaseSource("RandomGroupDataProvider")]
+            // read from a text file, comma separated value
+            string[] lines = File.ReadAllLines(@"groups.csv"); // this file is created in the project (General - Text File)
+            // in the file properties CopyToOutput Directory changed to Copy If Newer
+
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split(',');
+                groups.Add(new ContactGroup(parts[0])
+                {
+                    Header = parts[1],
+                    Footer = parts[2]
+                });
+            }
+
+            return groups;
+        }
+
+
+        //[Test, TestCaseSource("RandomGroupDataProvider")] // using random data generator
+        [Test, TestCaseSource("GroupDataFromFile")] // using data from a file
         public void GroupCreationTest(ContactGroup group)
         {
             // before we started using random string generator
