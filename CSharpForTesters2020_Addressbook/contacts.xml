@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContact xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Contact>
+    <FirstName>L</FirstName>
+    <LastName>Y</LastName>
+    <Photo>bunny.png</Photo>
+    <Address>P</Address>
+    <AllPhones />
+    <AllEmails />
+    <DayOfBirth>1</DayOfBirth>
+    <MonthOfBirth>10</MonthOfBirth>
+    <YearOfBirth>1974</YearOfBirth>
+    <DetailsView>L Y
+P</DetailsView>
+  </Contact>
+  <Contact>
+    <FirstName>7I?</FirstName>
+    <LastName>!2I:NVZ</LastName>
+    <Photo>bunny.png</Photo>
+    <Address>.%/</Address>
+    <AllPhones />
+    <AllEmails />
+    <DayOfBirth>1</DayOfBirth>
+    <MonthOfBirth>10</MonthOfBirth>
+    <YearOfBirth>1984</YearOfBirth>
+    <DetailsView>7I? !2I:NVZ
+.%/</DetailsView>
+  </Contact>
+</ArrayOfContact>

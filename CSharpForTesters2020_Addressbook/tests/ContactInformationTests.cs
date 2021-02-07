@@ -8,10 +8,10 @@ namespace AddressbookWebTests
     public class ContactInformationTests : AuthenticationTestBase
     {
         [Test]
-        public void ContactInformationTest()
+        public void ContactInformationTest([Range(0, 8)] int x)
         {
-            Contact contactInfoFromTable = application.ContactHelper.GetContactInfoFromTable(7);
-            Contact contactInfoFromEditForm = application.ContactHelper.GetContactInfoFromEditForm(7);
+            Contact contactInfoFromTable = application.ContactHelper.GetContactInfoFromTable(x);
+            Contact contactInfoFromEditForm = application.ContactHelper.GetContactInfoFromEditForm(x);
 
             Assert.AreEqual(contactInfoFromTable, contactInfoFromEditForm);
             Assert.AreEqual(contactInfoFromTable.Address, contactInfoFromEditForm.Address);
@@ -20,7 +20,7 @@ namespace AddressbookWebTests
         }
 
         [Test]
-        public void ContactInformationViewAndEditTest([Range(0, 9)] int x)
+        public void ContactInformationViewAndEditTest([Range(0, 8)] int x)
         {
             Contact contactInfoFromView = application.ContactHelper.GetContactInfoFromView(x);
             Contact contactInfoFromEditForm = application.ContactHelper.GetContactInfoFromEditForm(x);

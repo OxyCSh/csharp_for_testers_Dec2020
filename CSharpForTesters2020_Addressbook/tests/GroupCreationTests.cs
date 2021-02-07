@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml; // and add the library to the test project
 // References - Add Reference - Assemblies - Framework - System.Xml
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace AddressbookWebTests
 {
@@ -67,10 +68,19 @@ namespace AddressbookWebTests
                 .Deserialize(new StreamReader(@"groups.xml"));
         }
 
+        // the file needs to be copied to the solution folder \CSharpForTesters2020_Addressbook
+        // and added to the test project Add - Existing Item
+        // in the file properties CopyToOutput Directory changed to Copy If Newer
+        public static IEnumerable<ContactGroup> GroupDataFromJSONFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactGroup>>(File.ReadAllText(@"groups.json"));
+        }
+
 
         //[Test, TestCaseSource("RandomGroupDataProvider")] // using random data generator
         //[Test, TestCaseSource("GroupDataFromCSVFile")] // using data from a CSV file
-        [Test, TestCaseSource("GroupDataFromXMLFile")] // using data from an XML file
+        //[Test, TestCaseSource("GroupDataFromXMLFile")] // using data from an XML file
+        [Test, TestCaseSource("GroupDataFromJSONFile")] // using data from a JSON file
         public void GroupCreationTest(ContactGroup group)
         {
             // before we started using random string generator

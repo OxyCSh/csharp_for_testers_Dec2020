@@ -8,7 +8,7 @@ namespace AddressbookWebTests
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; } = null;
-        public string Photo { get; set; } = "C:\\bunny.png";
+        public string Photo { get; set; } = @"bunny.png";
         public string Address { get; set; } = null;
         public string allPhones;
         public string AllPhones
@@ -72,6 +72,10 @@ namespace AddressbookWebTests
                 }
             }
             set { detailsView = value; }
+        }
+
+        public Contact()
+        {
         }
 
         public Contact(string firstName)

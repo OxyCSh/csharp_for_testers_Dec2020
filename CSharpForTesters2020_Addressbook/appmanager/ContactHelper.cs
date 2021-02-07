@@ -167,7 +167,7 @@ namespace AddressbookWebTests
             TypeIn(By.Name("address"), contact.Address); // text box
 
             //do not click on the Browse button, it'll trigger an OS dialogue window
-            driver.FindElement(By.Name("photo")).SendKeys(contact.Photo); // file selector
+            driver.FindElement(By.Name("photo")).SendKeys(AppDomain.CurrentDomain.BaseDirectory+contact.Photo); // file selector, path to solution directory
 
             new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText(contact.DayOfBirth.ToString()); // drop-down
             new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByIndex(contact.MonthOfBirth+1);
