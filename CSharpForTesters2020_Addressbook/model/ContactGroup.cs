@@ -11,6 +11,11 @@ namespace AddressbookWebTests
         //private string header = "";
         //private string footer = "";
 
+        // empty constructor is required by XML serializer
+        public ContactGroup()
+        {
+        }
+
         public ContactGroup(string name)
         {
             Name = name;

@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml; // and add the library to the test project
+// References - Add Reference - Assemblies - Framework - System.Xml
+using System.Xml.Serialization;
 
 namespace AddressbookWebTests
 {
@@ -27,12 +30,13 @@ namespace AddressbookWebTests
         }
 
         // data provider
-        public static IEnumerable<ContactGroup> GroupDataFromFile()
+        public static IEnumerable<ContactGroup> GroupDataFromCSVFile()
         {
             List<ContactGroup> groups = new List<ContactGroup>();
 
             // read from a text file, comma separated value
-            string[] lines = File.ReadAllLines(@"groups.csv"); // this file is created in the project (General - Text File)
+            string[] lines = File.ReadAllLines(@"groups.csv");
+            // this file is created in the project (Add - New Item - General - Text File)
             // in the file properties CopyToOutput Directory changed to Copy If Newer
 
             foreach (string line in lines)
@@ -48,9 +52,25 @@ namespace AddressbookWebTests
             return groups;
         }
 
+        // data provider
+        // an XML file is better than CSV because
+        // 1 generated data can contain commas which will cause lines to be split incorrectly
+        // 2 not possible to see what column contains what (e. g. what's group name, what's group footer)
+        // 3 lack of visibility for multiline data
+        public static IEnumerable<ContactGroup> GroupDataFromXMLFile()
+        {
+            // the file needs to be copied to the solution folder \CSharpForTesters2020_Addressbook
+            // and added to the test project Add - Existing Item
+            // in the file properties CopyToOutput Directory changed to Copy If Newer
+            return (List<ContactGroup>) // converting an object returned by XmlSerializer to a list of groups
+                new XmlSerializer(typeof(List<ContactGroup>))
+                .Deserialize(new StreamReader(@"groups.xml"));
+        }
+
 
         //[Test, TestCaseSource("RandomGroupDataProvider")] // using random data generator
-        [Test, TestCaseSource("GroupDataFromFile")] // using data from a file
+        //[Test, TestCaseSource("GroupDataFromCSVFile")] // using data from a CSV file
+        [Test, TestCaseSource("GroupDataFromXMLFile")] // using data from an XML file
         public void GroupCreationTest(ContactGroup group)
         {
             // before we started using random string generator
