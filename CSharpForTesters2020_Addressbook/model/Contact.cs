@@ -1,14 +1,27 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace AddressbookWebTests
 {
+    [Table(Name = "addressbook")]
     public class Contact : IEquatable<Contact>, IComparable<Contact>
     {
+        [Column(Name = "id")]
         public string Id { get; set; }
+
+        [Column(Name = "firstname")]
         public string FirstName { get; set; }
+
+        [Column(Name = "lastname")]
         public string LastName { get; set; } = null;
+
+        [Column(Name = "photo")]
         public string Photo { get; set; } = @"bunny.png";
+
+        [Column(Name = "address")]
         public string Address { get; set; } = null;
         public string allPhones;
         public string AllPhones
@@ -38,11 +51,23 @@ namespace AddressbookWebTests
             set
             { allEmails = value; }
         }
+
+        [Column(Name = "email")]
         public string Email { get; set; } = null;
+
+        [Column(Name = "email2")]
         public string Email2 { get; set; } = null;
+
+        [Column(Name = "email3")]
         public string Email3 { get; set; } = null;
+
+        [Column(Name = "bday")]
         public int DayOfBirth { get; set; } = 1;
+
+        [Column(Name = "bmonth")]
         public int MonthOfBirth { get; set; } = 1;
+
+        [Column(Name = "byear")]
         public int YearOfBirth { get; set; } = 2000;
         public string ContactGroup { get; set; } = null;
 
@@ -141,6 +166,14 @@ namespace AddressbookWebTests
                 return FirstName.CompareTo(other.FirstName);
             else
                 return LastName.CompareTo(other.LastName);
+        }
+
+        public static List<Contact> GetAllContactsFromDB()
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from c in db.Contacts select c).ToList();
+            }
         }
     }
 }

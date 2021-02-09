@@ -1,7 +1,11 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AddressbookWebTests
 {
+    [Table(Name = "group_list")] // to map this class/object model to a table from the DB
     // class implements these two interfaces
     public class ContactGroup : IEquatable<ContactGroup>, IComparable<ContactGroup>
     // IEquatable means that a comparison method will be implemented to compare objects of ContactGroup
@@ -21,9 +25,17 @@ namespace AddressbookWebTests
             Name = name;
         }
 
+        // to map properties to the table columns
+        [Column(Name = "group_name"), NotNull] // NotNull can be used if writing to a DB so it's known before we attempt to write to the DB
         public string Name { get; set; }
+
+        [Column(Name = "group_header")]
         public string Header { get; set; } = null;
+
+        [Column(Name = "group_footer")]
         public string Footer { get; set; } = null;
+
+        [Column(Name = "group_id"), PrimaryKey, Identity]
         public string Id { get; set; }
 
 
@@ -33,7 +45,7 @@ namespace AddressbookWebTests
         {
             // a standard check: if 'other' is null,
             if (Object.ReferenceEquals(other, null))
-            { 
+            {
                 return false; // because the current object exists and is not null
             }
 
@@ -81,6 +93,20 @@ namespace AddressbookWebTests
             }
 
             return Name.CompareTo(other.Name);
+        }
+
+        public static List<ContactGroup> GetAllGroupsFromDB()
+        {
+            // option 1 - opens a connection and closes at the end (the same can be used when working with files)
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from g in db.Groups select g).ToList();
+            }
+
+            // option 2
+            //AddressbookDB db = new AddressbookDB(); // to establish connection to the DB
+            //List<ContactGroup> groupsFromDB = (from g in db.Groups select g).ToList(); // using LINQ
+            //db.Close();
         }
     }
 }

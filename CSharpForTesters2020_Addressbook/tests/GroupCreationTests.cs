@@ -6,6 +6,7 @@ using System.Xml; // and add the library to the test project
 // References - Add Reference - Assemblies - Framework - System.Xml
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace AddressbookWebTests
 {
@@ -149,6 +150,20 @@ namespace AddressbookWebTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<ContactGroup> groupsFromDB = ContactGroup.GetAllGroupsFromDB();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine("DB time\n{0} (start time {1}, end time {2})", end.Subtract(start), start, end);
+
+            start = DateTime.Now; // to measure how long it takes ro get groups from UI
+            List<ContactGroup> groupsFromUI = application.GroupHelper.GetGroupList();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine("UI time\n{0} (start time {1}, end time {2})", end.Subtract(start), start, end);
         }
     }
 }
