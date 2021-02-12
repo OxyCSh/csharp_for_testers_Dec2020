@@ -20,21 +20,40 @@ namespace AddressbookWebTests
             return this;
         }
 
-        public GroupHelper ModifyGroup(int index, ContactGroup group)
+        public GroupHelper ModifyGroupAtIndex(int index, ContactGroup group)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(index);
+            SelectGroupByIndex(index);
             InitGroupModification();
             FillGroupForm(group);
             SubmitGroupModification();
             ReturnToGroups();
             return this;
         }
-
-        public GroupHelper RemoveGroup(int index)
+        public GroupHelper ModifyGroup(ContactGroup groupToModify, ContactGroup newGroup)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(index);
+            SelectGroupById(groupToModify.Id);
+            InitGroupModification();
+            FillGroupForm(newGroup);
+            SubmitGroupModification();
+            ReturnToGroups();
+            return this;
+        }
+
+        public GroupHelper RemoveGroupAtIndex(int index)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroupByIndex(index);
+            PressRemoveButton();
+            ReturnToGroups();
+            return this;
+        }
+
+        public GroupHelper RemoveGroup(ContactGroup group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroupById(group.Id);
             PressRemoveButton();
             ReturnToGroups();
             return this;
@@ -66,10 +85,16 @@ namespace AddressbookWebTests
             return this;
         }
 
-        public GroupHelper SelectGroup(int index)
+        public GroupHelper SelectGroupByIndex(int index)
         {
             IList<IWebElement> checkboxes = driver.FindElements(By.XPath("//input[@type='checkbox']"));
             checkboxes[index].Click();
+            return this;
+        }
+
+        public GroupHelper SelectGroupById(string id)
+        {
+            driver.FindElement(By.XPath("//input[@type='checkbox' and @value='"+id+"']")).Click();
             return this;
         }
 

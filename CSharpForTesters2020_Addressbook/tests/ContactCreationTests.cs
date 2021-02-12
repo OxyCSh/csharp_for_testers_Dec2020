@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthenticationTestBase
+    public class ContactCreationTests : ContactTestBase
     {
         public static IEnumerable<Contact> RandomContactDataProvider()
         {
@@ -46,8 +46,8 @@ namespace AddressbookWebTests
 
 
         //[Test, TestCaseSource("RandomContactDataProvider")]
-        [Test, TestCaseSource("ContactDataFromXMLFile")]
-        //[Test, TestCaseSource("ContactDataFromJSONFile")]
+        //[Test, TestCaseSource("ContactDataFromXMLFile")]
+        [Test, TestCaseSource("ContactDataFromJSONFile")]
         public void ContactCreationTest(Contact contact)
         {
             /*
@@ -60,13 +60,13 @@ namespace AddressbookWebTests
             */
             //contact.ContactGroup = "White group";
 
-            List<Contact> oldContacts = application.ContactHelper.GetContactList();
+            List<Contact> oldContacts = Contact.GetAllContactsFromDB();
 
             application.ContactHelper.CreateContact(contact);
 
             Assert.AreEqual(oldContacts.Count + 1, application.ContactHelper.NumberOfContacts());
 
-            List<Contact> newContacts = application.ContactHelper.GetContactList();
+            List<Contact> newContacts = Contact.GetAllContactsFromDB();
 
             oldContacts.Add(contact);
             oldContacts.Sort();

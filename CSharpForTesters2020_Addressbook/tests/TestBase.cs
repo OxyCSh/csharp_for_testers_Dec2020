@@ -7,6 +7,7 @@ namespace AddressbookWebTests
     public class TestBase
     {
         protected ApplicationManager application;
+        public static bool UI_DB_CHECK = true;
 
         [SetUp]
         public void SetupApplicationManager()

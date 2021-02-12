@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class ContactModificationTests : AuthenticationTestBase
+    public class ContactModificationTests : ContactTestBase
     {
         [Test]
         public void ContactModificationTest()
@@ -19,22 +19,22 @@ namespace AddressbookWebTests
             Contact contact = new Contact("Mark");
             contact.LastName = "Ronson";
 
-            List<Contact> oldContacts = application.ContactHelper.GetContactList();
+            List<Contact> oldContacts = Contact.GetAllContactsFromDB();
 
-            int contactToModifyId = 0;
+            int contactToModifyIndex = 0;
 
-            Contact modifiedContact = oldContacts[contactToModifyId];
+            Contact modifiedContact = oldContacts[contactToModifyIndex];
 
             // act
-            application.ContactHelper.ModifyContact(contactToModifyId, contact);
+            application.ContactHelper.ModifyContact(modifiedContact, contact);
 
             // assert
             Assert.AreEqual(oldContacts.Count, application.ContactHelper.NumberOfContacts());
 
-            List<Contact> newContacts = application.ContactHelper.GetContactList();
+            List<Contact> newContacts = Contact.GetAllContactsFromDB();
 
-            oldContacts[contactToModifyId].FirstName = contact.FirstName;
-            oldContacts[contactToModifyId].LastName = contact.LastName;
+            modifiedContact.FirstName = contact.FirstName;
+            modifiedContact.LastName = contact.LastName;
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);

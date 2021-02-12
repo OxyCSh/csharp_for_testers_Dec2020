@@ -11,7 +11,7 @@ using System.Linq;
 namespace AddressbookWebTests
 {
     [TestFixture] // attributes
-    public class GroupCreationTests : AuthenticationTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         // random data provider
         // it needs to be static as NUnit generates data at test compile time
@@ -89,7 +89,8 @@ namespace AddressbookWebTests
             //group.Header = "Green header";
             //group.Footer = "Green footer";
 
-            List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList();
+            List<ContactGroup> oldGroups = ContactGroup.GetAllGroupsFromDB();
+            // groups from the DB but we can get them from the UI application.GroupHelper.GetGroupList()
 
             application.GroupHelper.CreateGroup(group);
 
@@ -101,7 +102,7 @@ namespace AddressbookWebTests
             */
             Assert.AreEqual(oldGroups.Count + 1, application.GroupHelper.NumberOfGroups());
 
-            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+            List<ContactGroup> newGroups = ContactGroup.GetAllGroupsFromDB();
 
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -116,13 +117,13 @@ namespace AddressbookWebTests
             group.Header = "";
             group.Footer = "";
 
-            List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList();
+            List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList(); // from UI
 
             application.GroupHelper.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count + 1, application.GroupHelper.NumberOfGroups());
 
-            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList(); // from UI
 
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -138,13 +139,13 @@ namespace AddressbookWebTests
             group.Header = "";
             group.Footer = "";
 
-            List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList();
+            List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList(); // from UI
 
             application.GroupHelper.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count + 1, application.GroupHelper.NumberOfGroups());
 
-            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList(); // from UI
 
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -155,12 +156,12 @@ namespace AddressbookWebTests
         [Test]
         public void TestDBConnectivity()
         {
-            DateTime start = DateTime.Now;
+            DateTime start = DateTime.Now; // to measure how long it takes to get groups from DB
             List<ContactGroup> groupsFromDB = ContactGroup.GetAllGroupsFromDB();
             DateTime end = DateTime.Now;
             System.Console.Out.WriteLine("DB time\n{0} (start time {1}, end time {2})", end.Subtract(start), start, end);
 
-            start = DateTime.Now; // to measure how long it takes ro get groups from UI
+            start = DateTime.Now; // to measure how long it takes to get groups from UI
             List<ContactGroup> groupsFromUI = application.GroupHelper.GetGroupList();
             end = DateTime.Now;
             System.Console.Out.WriteLine("UI time\n{0} (start time {1}, end time {2})", end.Subtract(start), start, end);

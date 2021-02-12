@@ -24,7 +24,7 @@ namespace AddressbookWebTests
         internal Contact GetContactInfoFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification(index);
+            InitContactModificationByIndex(index);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
@@ -91,25 +91,43 @@ namespace AddressbookWebTests
             };
         }
 
-        public ContactHelper ModifyContact(int ind, Contact contact)
+        public ContactHelper ModifyContactAtIndex(int ind, Contact contact)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification(ind);
+            InitContactModificationByIndex(ind);
             FillContactForm(contact);
             SubmitContactModification();
             ReturnToHomePage();
             return this;
         }
 
-        public ContactHelper RemoveContact(int index)
+        public ContactHelper ModifyContact(Contact contactToModify, Contact newContact)
         {
             manager.Navigator.OpenHomePage();
-            SelectContact(index);
+            InitContactModificationById(contactToModify.Id);
+            FillContactForm(newContact);
+            SubmitContactModification();
+            ReturnToHomePage();
+            return this;
+        }
+
+        public ContactHelper RemoveContactAtIndex(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContactByIndex(index);
             ClickDeleteButton();
             AcceptRemoval();
             return this;
         }
 
+        public ContactHelper RemoveContact(Contact contact)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContactById(contact.Id);
+            ClickDeleteButton();
+            AcceptRemoval();
+            return this;
+        }
 
         public ContactHelper InitContactCreation()
         {
@@ -124,17 +142,29 @@ namespace AddressbookWebTests
             return this;
         }
 
-        public ContactHelper SelectContact(int index)
+        public ContactHelper SelectContactByIndex(int index)
         {
             IList<IWebElement> checkboxes = driver.FindElement(By.Id("maintable")).FindElements(By.TagName("input"));
             checkboxes[index].Click();
             return this;
         }
 
-        public ContactHelper InitContactModification(int index)
+        public ContactHelper SelectContactById(String id)
+        {
+            driver.FindElement(By.XPath("//input[@type='checkbox' and @id='" + id + "']")).Click();
+            return this;
+        }
+
+        public ContactHelper InitContactModificationByIndex(int index)
         {
             IList<IWebElement> editIcons = driver.FindElement(By.Id("maintable")).FindElements(By.XPath("//img[@alt='Edit']"));
             editIcons[index].Click();
+            return this;
+        }
+
+        public ContactHelper InitContactModificationById(string id)
+        {
+            driver.FindElement(By.XPath("//tr[@name='entry']//input[@id='"+id+"']//ancestor::tr//img[@alt='Edit']")).Click();
             return this;
         }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthenticationTestBase
+    public class GroupRemovalTests : GroupTestBase
     {
         [Test]
         public void GroupRemovalTest()
@@ -16,22 +16,33 @@ namespace AddressbookWebTests
                 application.GroupHelper.CreateGroup(group);
             }
 
-            List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList();
+            // getting a list of groups via UI
+            //List<ContactGroup> oldGroups = application.GroupHelper.GetGroupList();
 
-            int groupToBeRemovedId = 0;
+            // via DB
+            List<ContactGroup> oldGroups = ContactGroup.GetAllGroupsFromDB();
 
-            ContactGroup toBeRemoved = oldGroups[groupToBeRemovedId];
+            int groupToBeRemovedIndex = 0;
+
+            ContactGroup toBeRemoved = oldGroups[groupToBeRemovedIndex];
 
             // act
-            application.GroupHelper.RemoveGroup(groupToBeRemovedId);
+            // before using the DB to get the list of groups, group was deleted by ID
+            // but it doesn't work anymore as the order of groups in the DB is different
+            //application.GroupHelper.RemoveGroupAtIndex(groupToBeRemovedId);
+            application.GroupHelper.RemoveGroup(toBeRemoved);
 
             // assert
             Assert.AreEqual(oldGroups.Count - 1, application.GroupHelper.NumberOfGroups());
 
-            List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+            // getting a list of groups via UI
+            //List<ContactGroup> newGroups = application.GroupHelper.GetGroupList();
+
+            // via DB
+            List<ContactGroup> newGroups = ContactGroup.GetAllGroupsFromDB();
 
             // remove deleted group from the list and compare the lists of groups
-            oldGroups.RemoveAt(groupToBeRemovedId);
+            oldGroups.RemoveAt(groupToBeRemovedIndex);
 
             /* as is by default the comparison method expects both to be the same object
             and they are not

@@ -64,10 +64,10 @@ namespace AddressbookWebTests
         [Column(Name = "bday")]
         public int DayOfBirth { get; set; } = 1;
 
-        [Column(Name = "bmonth")]
+        //[Column(Name = "bmonth")]
         public int MonthOfBirth { get; set; } = 1;
 
-        [Column(Name = "byear")]
+        //[Column(Name = "byear")]
         public int YearOfBirth { get; set; } = 2000;
         public string ContactGroup { get; set; } = null;
 
