@@ -9,7 +9,7 @@ namespace AddressbookWebTests
     [Table(Name = "addressbook")]
     public class Contact : IEquatable<Contact>, IComparable<Contact>
     {
-        [Column(Name = "id")]
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
         [Column(Name = "firstname")]
@@ -99,6 +99,9 @@ namespace AddressbookWebTests
             set { detailsView = value; }
         }
 
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
         public Contact()
         {
         }
@@ -172,7 +175,7 @@ namespace AddressbookWebTests
         {
             using (AddressbookDB db = new AddressbookDB())
             {
-                return (from c in db.Contacts select c).ToList();
+                return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
             }
         }
     }

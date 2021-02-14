@@ -41,5 +41,10 @@ namespace AddressbookWebTests
         {
             get { return GetTable<Contact>(); }
         }
+
+        public ITable<GroupContactRelation> GroupContactRelation
+        {
+            get { return GetTable<GroupContactRelation>(); }
+        }
     }
 }

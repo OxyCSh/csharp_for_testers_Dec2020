@@ -108,5 +108,15 @@ namespace AddressbookWebTests
             //List<ContactGroup> groupsFromDB = (from g in db.Groups select g).ToList(); // using LINQ
             //db.Close();
         }
+
+        public List<Contact> GetGroupContactsFromDB()
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from c in db.Contacts
+                        from groupContactRelation in db.GroupContactRelation.Where(p => p.GroupId == Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+                        select c).Distinct().ToList();
+            }
+        }
     }
 }

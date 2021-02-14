@@ -156,15 +156,10 @@ namespace AddressbookWebTests
         [Test]
         public void TestDBConnectivity()
         {
-            DateTime start = DateTime.Now; // to measure how long it takes to get groups from DB
-            List<ContactGroup> groupsFromDB = ContactGroup.GetAllGroupsFromDB();
-            DateTime end = DateTime.Now;
-            System.Console.Out.WriteLine("DB time\n{0} (start time {1}, end time {2})", end.Subtract(start), start, end);
-
-            start = DateTime.Now; // to measure how long it takes to get groups from UI
-            List<ContactGroup> groupsFromUI = application.GroupHelper.GetGroupList();
-            end = DateTime.Now;
-            System.Console.Out.WriteLine("UI time\n{0} (start time {1}, end time {2})", end.Subtract(start), start, end);
+            foreach (Contact contact in ContactGroup.GetAllGroupsFromDB()[17].GetGroupContactsFromDB())
+            {
+                System.Console.Out.WriteLine(contact);
+            }
         }
     }
 }

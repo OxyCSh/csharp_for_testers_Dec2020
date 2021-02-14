@@ -120,7 +120,9 @@
   <ItemGroup>
     <Compile Include="model\AddressbookDB.cs" />
     <Compile Include="model\Contact.cs" />
+    <Compile Include="model\GroupContactRelation.cs" />
     <Compile Include="tests\AuthenticationTestBase.cs" />
+    <Compile Include="tests\ContactAddingToGroupTests.cs" />
     <Compile Include="tests\ContactCreationTests.cs" />
     <Compile Include="model\ContactGroup.cs" />
     <Compile Include="appmanager\ContactHelper.cs" />
