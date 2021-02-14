@@ -33,6 +33,17 @@ namespace AddressbookWebTests
             return this;
         }
 
+        public ContactHelper RemoveContactFromGroup(Contact contact, ContactGroup group)
+        {
+            manager.Navigator.OpenHomePage();
+            FilterContactsByGroup(group.Name);
+            SelectContactById(contact.Id);
+            CommitRemovingContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            return this;
+        }
+
         private void ClearGroupFilter()
         {
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
@@ -43,9 +54,19 @@ namespace AddressbookWebTests
             new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(groupName);
         }
 
+        private void FilterContactsByGroup(string groupName)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(groupName);
+        }
+
         private void CommitAddingContactToGroup()
         {
             driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void CommitRemovingContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
         }
 
         internal Contact GetContactInfoFromEditForm(int index)
