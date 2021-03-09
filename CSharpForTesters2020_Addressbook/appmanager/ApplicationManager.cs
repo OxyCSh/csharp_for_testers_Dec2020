@@ -22,6 +22,7 @@ namespace AddressbookWebTests
         private ApplicationManager()
         {
             Driver = new FirefoxDriver();
+            // if an error (couldn't start the browser as it was restarting to install updates), wait 30 sec and retry
             //Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
 
             //baseURL = "http://localhost/addressbook/";

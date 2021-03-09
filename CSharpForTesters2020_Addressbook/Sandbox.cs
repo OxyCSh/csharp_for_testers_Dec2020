@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
@@ -20,7 +21,8 @@ namespace SandboxTests
         [SetUp]
         public void SetupTest()
         {
-            driver = new FirefoxDriver();
+            //driver = new FirefoxDriver();
+            driver = new ChromeDriver();
             verificationErrors = new StringBuilder();
         }
 
@@ -53,20 +55,30 @@ namespace SandboxTests
             // wait up to 30 seconds until the element is displayed
             new WebDriverWait(driver, TimeSpan.FromSeconds(30)).Until<bool>(d => driver.FindElement(By.CssSelector("#datepicker")).Displayed);
             
+            // option 1
             (driver as IJavaScriptExecutor).ExecuteScript(String.Format("$('{0}').datepicker('setDate', '{1}')", "#datepicker", "02/20/2002"));
+            // option 2
+            (driver as IJavaScriptExecutor).ExecuteScript(String.Format("$('#datepicker').val('28.02.2021').change()"));
+            // option 3
+            (driver as IJavaScriptExecutor).ExecuteScript(String.Format("$('#datepicker').val('28.02.2021').trigger('change')"));
         }
 
 
-        // TO DO selecting from drop-downs
+        
         [Test]
         public void JQuerySelectTest()
         {
             driver.Navigate().GoToUrl("https://select2.org/getting-started/basic-usage");
 
-            SelectFromDropDown(By.XPath("(//select)[1]"), "New Mexico"); // standard HTML select
-            SelectFromDropDown(By.XPath("(//select)[2]"), "Rhode Island"); // select2 - doesn't work
-            SelectFromDropDown(By.XPath("(//select)[3]"), "Nevada"); // select2 - doesn't work
+            // standard HTML select that won't work with select2
+            SelectFromDropDown(By.XPath("(//select)[1]"), "New Mexico");
+            
+            // a select2 select, selecting an option using JQuery API
+            // wait up to 30 seconds until the element is displayed
+            new WebDriverWait(driver, TimeSpan.FromSeconds(30)).Until<bool>(d => driver.FindElement(By.CssSelector(".js-example-basic-single")).Displayed);
+            (driver as IJavaScriptExecutor).ExecuteScript(String.Format("$('.js-example-basic-single').val('ID').trigger('change')"));
         }
+
 
         private void SelectFromDropDown(By dropdownLocator, string selectOption)
         {
@@ -108,21 +120,6 @@ namespace SandboxTests
                 System.Threading.Thread.Sleep(1000);
                 attempt++;
             } while (driver.FindElements(By.Id("test")).Count == 0 && attempt < 5);
-        }
-
-        [Test]
-        public void TestTest()
-        {
-            driver.Navigate().GoToUrl("http://localhost/addressbook/");
-            driver.FindElement(By.Name("user")).SendKeys("admin");
-            driver.FindElement(By.Name("pass")).SendKeys("secret");
-            driver.FindElement(By.XPath("//input[@value='Login']")).Click();
-
-            IList<IWebElement> editIcons = driver.FindElement(By.Id("maintable")).FindElements(By.XPath("//img[@alt='Details']"));
-            editIcons[3].Click();
-
-            System.Console.Out.Write(driver.FindElement(By.Id("content")).Text);
-
         }
 
         [Test]
